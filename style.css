@@ -1,0 +1,181 @@
+/* NOTA: No se usan fuentes externas para que el juego funcione sin internet. */
+
+:root {
+    --bg-color: #1a1a2e;
+    --container-color: #16213e;
+    --card-color: #0f3460;
+    --primary-color: #e94560;
+    --accent-color: #f6c90e;
+    --text-color: #e0e0e0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* --- CONTENEDOR PRINCIPAL DEL JUEGO --- */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--container-color);
+    padding: 30px;
+    border-radius: 20px;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 25px rgba(233, 69, 96, 0.4);
+}
+
+h1 {
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color);
+}
+
+/* --- ESTADÍSTICAS (MOVIMIENTOS Y TIEMPO) --- */
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* --- TABLERO DE JUEGO --- */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(4, 100px);
+    gap: 15px;
+    perspective: 1000px; /* Esencial para el efecto 3D */
+}
+
+/* --- ESTILOS DE LAS CARTAS --- */
+.card {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.card.is-matched {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    border-radius: 10px;
+    border: 3px solid var(--accent-color);
+    box-shadow: 0 0 10px rgba(246, 201, 14, 0.5);
+}
+
+.card-face--front {
+    background-color: var(--bg-color);
+}
+
+.card-face--back {
+    background-color: var(--card-color);
+    transform: rotateY(180deg);
+}
+
+/* --- BOTÓN DE REINICIO --- */
+.restart-button {
+    background-color: var(--accent-color);
+    color: var(--container-color);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(246, 201, 14, 0.4);
+}
+
+.restart-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(246, 201, 14, 0.7);
+}
+
+/* --- ESTILOS PARA EL MODAL DE VICTORIA --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal-content {
+    background-color: var(--container-color);
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 30px rgba(233, 69, 96, 0.6);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transform: scale(0.9);
+    animation: modal-appear 0.4s ease-out forwards;
+}
+
+.modal-content h2 {
+    color: var(--accent-color);
+    font-size: 2.5rem;
+    text-shadow: 0 0 8px var(--accent-color);
+}
+
+.modal-content p {
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+@keyframes modal-appear {
+    to {
+        transform: scale(1);
+    }
+}
